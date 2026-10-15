@@ -2,9 +2,9 @@
 
 **Aderinwale John O. · Data Analyst · Microsoft Excel**
 
-I developed an Excel expense-reporting workflow for an agricultural business, turning source expense records into structured categories and a management dashboard. This case study explains the methods and reporting decisions without publishing the client's records or findings.
+I developed an Excel expense-reporting workflow for an agricultural business, turning source expense records into structured categories and a management dashboard. This case study presents selected dashboard outputs and explains the cleaning, reporting and validation decisions behind them.
 
-**Confidentiality:** Business records are withheld. All displayed figures, example entries and preview categories are synthetic. Images are recreated portfolio illustrations, not screenshots of the client's Excel workbook.
+**Confidentiality:** Selected reporting outputs are shared with the business owner's permission. Dashboard screenshots contain actual aggregate figures. Underlying transaction records, source documents and the original workbook are withheld. The cleaning example is entirely synthetic and is labelled separately.
 
 ## The business problem
 
@@ -18,11 +18,19 @@ Expense records needed a consistent structure that would let the owner review sp
 - Prepared management insights and recommendations, including better checks when records are collected and collated.
 - Defined the next phase: database storage and incremental loading of subsequent records.
 
-## Dashboard preview
+## Excel dashboard
 
-![Synthetic expense reporting preview](images/dashboard-overview.png)
+![Actual Excel dashboard showing expense KPIs, month slicer, monthly trend and category breakdown](images/dashboard-overview.png)
 
-The illustration shows the reporting concepts: period comparisons and category breakdowns. Its values and categories are invented and do not reproduce the business's actual spending distribution. The private workbook contains the operational dashboard; it is not distributed with this portfolio.
+This cropped screenshot shows the operational Excel dashboard, including full-period KPI cards, a Month slicer, monthly spending and expense categories. It covers January–September 2026. Excel controls and surrounding blank space were cropped out; the displayed figures and chart content were not altered.
+
+The cards show the full reporting period. The Month slicer filters connected PivotCharts, not the fixed full-period cards. This image is a static capture; slicer interaction is available in the private workbook.
+
+## Monthly expense composition
+
+![Actual Excel stacked column chart showing monthly expenses by category](images/monthly-category.png)
+
+The stacked chart shows how the category mix contributes to recorded spending in each month. It supports discussion of funding needs and activity timing without publishing transaction-level records. A spending peak is a prompt for investigation, not evidence of inefficiency or a recurring seasonal pattern.
 
 ### Why these views
 
@@ -50,7 +58,7 @@ The example illustrates the approach rather than exposing client entries.
 
 The workbook includes monthly reconciliation and review fields. The reporting workflow separates transaction records from summary controls and checks that category and period summaries refer to the same expense population. Source totals are useful where available; matching them does not make the underlying records audited or complete.
 
-A publication-safe demonstration does not include source images, raw rows, reconciliation exceptions or internal quality findings. Those remain part of the private business work.
+Source documents, raw rows, reconciliation exceptions and internal quality findings remain private. Only the selected aggregate dashboard views are included.
 
 ## Management deliverable
 
@@ -78,7 +86,8 @@ Excel reporting, PivotTables, dashboard design, expense classification, data cle
 ## Repository contents
 
 - `README.md` — this case study.
-- `images/dashboard-overview.png` — synthetic reporting preview.
+- `images/dashboard-overview.png` — cropped screenshot of the actual Excel dashboard.
+- `images/monthly-category.png` — cropped screenshot of the actual monthly category chart.
 - `images/cleaning-example.png` — invented before-and-after record example.
 
-The original workbook, client records, source images and actual financial findings are intentionally excluded.
+The original workbook, transaction-level client records and source documents are intentionally excluded. Selected aggregate financial information appears in the dashboard screenshots with permission.
