@@ -1,8 +1,8 @@
 # Agricultural Expense Reporting and Data Management
 
-**Aderinwale John O. · Data Analyst · Microsoft Excel**
+**Aderinwale John O. · Data Analyst · Microsoft Excel · PostgreSQL · SQL**
 
-I developed an Excel expense-reporting workflow for an agricultural business, turning source expense records into structured categories and a management dashboard. This case study presents selected dashboard outputs and explains the cleaning, reporting and validation decisions behind them.
+I developed an expense-reporting workflow for an agricultural business, combining a structured PostgreSQL expense database with Excel management reporting. This case study presents selected dashboard outputs and explains the cleaning, reporting and validation decisions behind them.
 
 **Confidentiality:** Selected reporting outputs are shared with the business owner's permission. Dashboard screenshots contain actual aggregate figures. Underlying transaction records, source documents and the original workbook are withheld. The cleaning example is entirely synthetic and is labelled separately.
 
@@ -16,7 +16,9 @@ Expense records needed a consistent structure that would let the owner review sp
 - Standardised descriptions and classification labels while retaining source wording for traceability.
 - Built Excel reporting with PivotTables, PivotCharts, KPI cards and a Month slicer.
 - Prepared management insights and recommendations, including better checks when records are collected and collated.
-- Defined the next phase: database storage and incremental loading of subsequent records.
+- Imported historical expenses into PostgreSQL and reconciled record counts, distinct identifiers and financial totals with Excel.
+- Created monthly expense and category views, plus sales/payment tables, a sales balance view and an unmatched-payment check.
+- Prepared capture templates for future records and created a database backup.
 
 ## Excel dashboard
 
@@ -66,22 +68,42 @@ The completed expense-reporting phase gives the owner a consolidated dashboard a
 
 This case study does not claim measured savings, profit improvements or revenue growth. Expense-only analysis cannot establish profitability, unit economics or budget performance without the relevant revenue, output and budget records.
 
-## Database roadmap — planned work
+## PostgreSQL implementation
 
-| Stage | Intended implementation | Completion evidence |
+The initial database is implemented with three tables:
+
+| Table | Purpose | Current state |
 | --- | --- | --- |
-| Historical migration | Load existing records into a relational database with appropriate types and identifiers. | Reconcile imported record counts and totals to the approved source. |
-| Incremental ingestion | Add new records through a repeatable loading process with source tracking. | Show that replaying the same batch does not create unintended duplicates. |
-| Corrections | Define how amendments to existing records are identified and applied. | Preserve traceable changes and reconcile corrected reporting totals. |
-| Operational checks | Validate required fields, dates, classifications and amounts; retain rejected records for review. | Demonstrate accepted, rejected and corrected examples using synthetic data. |
-| Sales and revenue | Extend the model when those records are available and their meaning is agreed. | Validate relationships and prevent joins from multiplying financial totals. |
-| Reporting refresh | Feed consistent reporting outputs into the dashboard. | Check database summaries against displayed metrics. |
+| expenses | Store historical expense entries with classifications, source references and optional exact dates. | Historical data imported and reconciled. |
+| sales | Store product-level sale lines with quantity, unit price and discount; calculate line value in PostgreSQL. | Structure created; no real sales records loaded yet. |
+| sales_payments | Record receipts separately from sales to support instalments and outstanding balances. | Structure created; no real payment records loaded yet. |
 
-These are proposed next steps, not completed features. No database engine, automation schedule or production pipeline is claimed for this business yet.
+Reporting views cover monthly expenses, expense categories, sale balances and unmatched payment references. Sales and payments are aggregated separately before joining, avoiding multiplication of totals when a sale contains multiple lines and payments.
+
+Expense constraints enforce unique IDs, valid reporting months, nonnegative amounts and agreement between an exact date and its reporting period. The unmatched-payment view detects references not found in sales; the sale-to-payment relationship is not yet enforced by a foreign key.
+
+### Validation and backup
+
+After the historical CSV import through pgAdmin, I checked record counts, unique IDs and the total against the source workbook, followed by monthly and category summaries. The sales views currently return empty results because no real sales/payment records have been loaded; transaction scenarios have not yet been validated with real data.
+
+A database backup has been created. A restore drill remains to be completed. The existing Excel dashboard is not yet connected directly to PostgreSQL.
+
+### How subsequent records will be handled
+
+New handwritten records will be scanned, transcribed into the agreed templates, checked against their sources and manually imported as new batches. Stable expense IDs prevent reuse of an existing ID. They do not detect a duplicated handwritten transaction assigned a different ID, so an imported-page checklist remains necessary. Repeated CSV imports fail on existing IDs rather than automatically skipping them.
+
+### Next steps
+
+- Validate sales, instalments and unmatched-payment scenarios using synthetic records in an isolated test environment.
+- Test backup restoration.
+- Establish a reporting refresh connection or controlled export to Excel.
+- Add automated incremental loading and traceable correction handling if the volume justifies it.
+
+Python ingestion, scheduled loading, automatic duplicate resolution and a live Excel database connection are not implemented for this business.
 
 ## Skills demonstrated
 
-Excel reporting, PivotTables, dashboard design, expense classification, data cleaning, source traceability, reconciliation, handling incomplete data, and communicating practical recommendations to a business owner.
+Excel reporting, PivotTables, dashboard design, PostgreSQL table design, SQL views, CSV imports, financial reconciliation, source traceability and handling incomplete data.
 
 ## Repository contents
 
